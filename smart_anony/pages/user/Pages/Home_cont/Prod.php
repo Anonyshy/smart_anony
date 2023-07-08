@@ -32,15 +32,9 @@ if (isset($_GET['id'])) {
     <meta http-equiv="X-UA-Compatible " content="IE=edge">
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
- 
-
+    <link rel="stylesheet" type="text/css"  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../CSS/External.css">
+
     <style>
         a,
         h1,
@@ -55,7 +49,12 @@ if (isset($_GET['id'])) {
 </head>
 
 <body background="../../Images/bg_prod.jpg">
+    
     <div class="container mt-5">
+    <form id="frmSrch" role="search">
+        <input type="search" id="srch" name="srch" placeholder="Search hear.." aria-label="Search through site content">
+        <button>Search</button>
+    </form><br><br>
         <div class="row">
             <?php
             $query = "SELECT * FROM product";

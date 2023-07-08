@@ -2,7 +2,7 @@
 
 include_once("../../../connection.php");
 session_start();
-$loginame = $_SESSION['UserName'];
+$loginame = $_SESSION['Username'];
 if (isset($_GET['proid'])) {
 	$id = $_GET['proid'];
 	//echo $id;
@@ -16,7 +16,14 @@ if (isset($_GET['proidnew'])) {
 	//echo "success";
 }
 
+if(isset($_GET['moveid'])){
+	$moveid = $_GET['moveid'];
+	$query = "INSERT INTO wishlist values ('$moveid','$loginame');";
+	$conn->query($query);
+	$query2 = "DELETE FROM product_temp WHERE id='$moveid' AND Username='$loginame';";
+	$conn->query($query2);
 
+}
 
 
 
@@ -30,12 +37,7 @@ if (isset($_GET['proidnew'])) {
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css"
 		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../../CSS/External.css">
 	<style>
 		a,
@@ -46,6 +48,10 @@ if (isset($_GET['proidnew'])) {
 			font-family: Arial;
 			text-decoration: none;
 		}
+
+		.mt3 {
+			background-color: greenyellow;
+		}
 	</style>
 
 </head>
@@ -55,53 +61,43 @@ if (isset($_GET['proidnew'])) {
 
 	<br><br>
 	<div class="container mt-5">
+		<a href="wish.php" class="btn btn-primary"><span
+				class="glyphicon glyphicon-heart "></span>&nbsp;Wishlist</a><br><br><br>
 		<div class="row">
 			<?php
 
 
-			$tempquery = "SELECT * FROM product_temp_online WHERE Cus_Name='$loginame'";
+			$tempquery = "SELECT * FROM product_temp WHERE Username='$loginame'";
 			$tempresult = $conn->query($tempquery);
 			if ($tempresult->num_rows > 0) {
 				$total = 0; ?>
 				<table width="100%" border="1px" align="center" style=" text-align: center;color:white;">
-					<tr>
-						<th>Product</th>
-						<th>Quantity</th>
-						<th>Total</th>
-						<th>Action</th>
-					</tr>
+
 					<?php
 					while ($rowstemp = $tempresult->fetch_assoc()) {
-						$proid = $rowstemp['prod_id'];
-						$qty = $rowstemp['qty'];
+						$proid = $rowstemp['id'];
+						//$qty = $rowstemp['qty'];
 						//$price = $rowstemp['List_Price'];
 				
-						$query = "SELECT * FROM product Where Prod_ID='$proid';";
+						$query = "SELECT * FROM product Where Pro_ID='$proid';";
 						$result = $conn->query($query);
 						if ($result->num_rows > 0) {
 
 							while ($rows = $result->fetch_assoc()) {
-								$name = $rows['Prod_Name'];
-								$qtya = $rows['Qty_Availble'];
-								$price = $rows['List_Price'];
-								if ($qtya >= $qty) {
+								$name = $rows['Pro_name'];
+								$qtya = $rows['Qty_available'];
+								$price = $rows['Cost'];
+								if ($qtya > 0) {
 									?>
 
 									<tr style="align-items:center;">
 										<td width="50%">
 											<?php echo "<b>$name</b> | <font size='1px'>Available: $qtya </font>| <font size='1px'>Unit Price : $price</font>"; ?>
 										</td>
-										<td>
-											<input type="number" style="width:50px;" placeholder="<?php echo $qty; ?>"> &nbsp; <a href="#"
-												class="btn_add">Add</a>
-										</td>
-										<td width="300px" style="text-align:Right;">
-											<?php echo "Rs.";
-											echo ($price * $qty);
-											echo ".00"; ?>
-										</td>
+
+
 										<td width="10px">
-											<?php echo "<a href='cart.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a>"; ?>
+											<?php echo "<a href='cart.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a> <a href='cart.php?moveid=$proid'   class='btn btn-success mt-3'>Move to Wishlist</a>"; ?>
 										</td>
 									</tr>
 
@@ -109,10 +105,15 @@ if (isset($_GET['proidnew'])) {
 
 									<?php
 
-									$total = $total + ($price * $qty);
+									$total = $total + ($price);
 								} else {
-									$delquery = "DELETE FROM product_temp_online WHERE prod_id='$proid'";
-									$delresult = $conn->query($delquery);
+									
+									$query = "INSERT INTO wishlist values ('$proid','$loginame');";
+									$conn->query($query);
+									$query2 = "DELETE FROM product_temp WHERE id='$proid' AND Username='$loginame';";
+									$conn->query($query2);
+									
+
 								}
 							}
 						}
@@ -120,7 +121,7 @@ if (isset($_GET['proidnew'])) {
 					}
 					?>
 				</table>
-			</div>
+			</div><br><br>
 			<div class="checkout" style="background-color:White;padding:8px;display: flex;">
 				<div style="margin-Right:55%;margin-left:5%;font-family: Verdana;font-size:20px;color:Red;">
 					<p style="color:Black;"><br><b>Total :-
@@ -141,7 +142,7 @@ if (isset($_GET['proidnew'])) {
 
 
 			<?php
-			} else { ?>
+			} else { ?><br><br>
 			<div class="checkout" style="background-color:#67da22;padding:8px;display: flex;">
 				<div style="margin-Right:55%;margin-left:5%;font-family: Verdana;font-size:20px;color:Red;">
 					<p style="color:Black;"><b>Total :-
