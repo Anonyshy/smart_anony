@@ -5,7 +5,7 @@ $catID = $_POST['cat'];
 $prodname = $_POST['prod_name'];
 $dcr = $_POST['discription'];
 $cost = $_POST['std_cost'];
-//$status = $_POST['status'];
+$url = $_POST['url'];
 $qty = $_POST['qty'];
 //$image = $_POST["imgs"];
 
@@ -26,7 +26,7 @@ if (isset($_POST['submit']) && isset($_FILES['imgs'])) {
     $uppath = '../uploads/' . $new_name;
     move_uploaded_file($tmp_name, $uppath);
 
-    $INSERT = "INSERT Into product values('','$prodname','$qty','$catID','$cost','$dcr','$new_name')";
+    $INSERT = "INSERT Into product values('','$prodname','$qty','$catID','$cost','$dcr','$url','$new_name')";
     $conn->query($INSERT);
 
     header("Location: ../product.php");

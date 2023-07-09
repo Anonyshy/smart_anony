@@ -3,19 +3,23 @@
 include_once("../../../connection.php");
 session_start();
 $loginame = $_SESSION['Username'];
+
+//================================Delete product from cart==========================================
 if (isset($_GET['proid'])) {
-	$id = $_GET['proid'];
-	//echo $id;
-}
+	$id = "cart.php?idd=" . $_GET['proid'];
+	//echo "<script> confirm('$id');</script>";
+	echo "<script>let res = confirm('Are you sure you want to delete this?');if(res){window.location.href = '$id';console.log('ok');}else{window.location.href = 'cart.php';console.log('no');}</script>";
+  }
+  if (isset($_GET['idd'])) {
+	//echo "OKK";
+	$idd = $_GET['idd'];
+	//echo $idd;
+	$delquery = "DELETE FROM product_temp where id='$idd' And Username='$loginame';";
+	$conn->query($delquery);
+  }
 
-if (isset($_GET['proidnew'])) {
-	$idnew = $_GET['proidnew'];
-	$query3 = "DELETE FROM product_temp_online WHERE prod_id='$idnew' AND Cus_Name='$loginame';";
-	$conn->query($query3);
-	header("location:cart.php");
-	//echo "success";
-}
 
+//=============================Insert to wishlist and delete from cart=======================
 if(isset($_GET['moveid'])){
 	$moveid = $_GET['moveid'];
 	$query = "INSERT INTO wishlist values ('$moveid','$loginame');";
@@ -160,24 +164,6 @@ if(isset($_GET['moveid'])){
 		<?php }
 
 			?>
-
-		<!-- error not fixed yet-->
-		<script>
-
-
-			function confirmation() {
-				let prod = "<?php echo $id; ?>";
-				let urlp = "cart.php?proidnew=";
-				let fullurl = urlp + prod;
-				//window.location.href = "cart.php";
-				let result = confirm("Are you really want to delete this item?");
-
-				if (result) {
-					window.location.href = fullurl;
-				}
-			}
-			confirmation();
-		</script>
 
 </body>
 

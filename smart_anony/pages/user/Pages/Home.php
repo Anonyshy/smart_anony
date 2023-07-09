@@ -1,3 +1,31 @@
+<?php
+include_once("../../connection.php");
+session_start();
+$loginame = $_SESSION['Username'];
+//======================Add to cart=======================
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  $quty = $_GET['qty'];
+
+  $query = "INSERT INTO product_temp values ('$id','$loginame');";
+
+  if ($quty > 0) {
+    $conn->query($query);
+    echo "<script>alert('Added Successfully!')</script>";
+  } else {
+    echo "<script>alert('out of Stock');</script>";
+  }
+}
+
+//=======================Add to wishlist=============
+if (isset($_GET['moveid'])) {
+  $id = $_GET['moveid'];
+
+  $wishquery = "INSERT INTO wishlist values ('$id','$loginame');";
+  $conn->query($wishquery);
+  echo "<script>alert('Added Successfully!')</script>";
+}
+?>
 <html>
 
 <head>
@@ -54,7 +82,7 @@
 
 
           <?php
-          include_once("../../connection.php");
+
 
           $query2 = "SELECT Cat_Name from category order by Cat_Name asc";
           $result2 = $conn->query($query2);
@@ -87,11 +115,11 @@
       <hr>
 
       <div class="flexlts">
-        <div class="flex" style="display:flex;max-width:100%;">
+        <div class="flex" style="display:flex;max-width:100%;margin-left:40px;">
           <?php
           $qlts = "SELECT * from product order by Pro_ID Desc LIMIT 6;";
           $rlts = $conn->query($qlts);
-          $count = 0;
+
           while ($fetchlts = mysqli_fetch_assoc($rlts)) {
             $ltsname = $fetchlts['Pro_name'];
             $proid = $fetchlts['Pro_ID'];
@@ -100,7 +128,7 @@
             $image = $fetchlts['file_name'];
             $des = $fetchlts['Description'];
             //$cat = $fetchlts['Cat_ID'];
-            $count += 1;
+          
 
 
 
@@ -108,7 +136,7 @@
 
 
             <div class="card-body" style="border: 0.2px solid white;margin-left:5px;padding:5px;">
-              <img src="../../../templates/uploads/<?php echo $image; ?>" width="100%" style="margin-top:20px;">
+              <img src="../../../templates/uploads/<?php echo $image; ?>" height="200px" style="margin-top:20px;">
 
               <br>
 
@@ -117,31 +145,30 @@
               </h5>
               <p class="card-title" style="font-size:10px;"><b>Available </b> :
                 <?php if ($qty > 0) {
-                  echo "<font color='red'>$qty</font>";
+                  echo "$qty";
                 } else
                   echo "<font color='red'> Out of Stoke</font>"; ?> | Rs.
-                  <?php echo $price; ?>
+                <?php echo $price; ?>
               </p>
-              
+
               <p class="card-title" style="font-size:10px;"><b>Description</b> :
                 Click here...
               </p>
               <form method="POST" action="#">
                 <div style="margin-left:30%;">
-                  <?php echo "<button type='submit' style='background-color:Red;border-radius:8px;color:white;border: 2px solid white;cursor: pointer;' formaction='Prod.php?id=$proid&qty=$qty'>Add to cart</button>"; ?>
+                  <?php if ($qty > 0) { ?>
+                    <?php echo "<button type='submit' style='background-color:Red;border-radius:8px;color:white;border: 2px solid white;cursor: pointer;' formaction='Home.php?id=$proid&qty=$qty'>Add to cart</button>"; ?>
+                    <?php
+                  } else { ?>
+                    <?php echo "<button type='submit' style='background-color:yellow;border-radius:8px;color:black;border: 2px solid white;cursor: pointer;' formaction='Home.php?moveid=$proid'>Add to wishlist</button>"; ?>
+                    <?php
+                  }
+                  ?>
                 </div>
               </form>
             </div>
+          <?php } ?>
 
-            <?php
-            if ($count == 4) { ?>
-              <div class="fex"></div>
-              <?php
-              
-              $count = 0;
-
-            }
-          } ?>
         </div>
 
 

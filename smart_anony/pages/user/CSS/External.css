@@ -151,15 +151,19 @@ h3.nav {
 	height: 30px;
 	border-radius: 5px;
 	display: flex;
-	flex-direction: row;
 	align-items: center;
+	position: fixed;
+	z-index: 1;
+	
 }
 
 #frmSrch button {
-	all: unset;
+	color: #fff;
+	background-color: #4654e1;
 	cursor: pointer;
 	width: 75px;
 	height: 30px;
+	
 }
 
 ::placeholder {

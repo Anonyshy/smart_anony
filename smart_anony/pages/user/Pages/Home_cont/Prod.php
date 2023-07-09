@@ -1,28 +1,32 @@
 <?php
 include_once("../../../connection.php");
-/*
+
+session_start();
+$loginame = $_SESSION['Username'];
+//======================Add to cart=======================
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $quty = $_GET['qty'];
-    session_start();
-    $loginame = $_SESSION['UserName'];
-    $quanty = $_POST['quant'];
-    $query3 = "INSERT INTO product_temp_online values ('$id','$loginame','$quanty');";
-    if ($loginame != "Admin") {
-        if ($quanty <= $quty) {
-            $conn->query($query3);
-            echo "<script>alert('Added Successfully!')</script>";
-        } else {
-            echo "<script>alert('Limited Stock & Please Enter Less amount from Available Stock');</script>";
-        }
+
+    $query = "INSERT INTO product_temp values ('$id','$loginame');";
+
+    if ($quty > 0) {
+        $conn->query($query);
+        echo "<script>alert('Added Successfully!')</script>";
+    } else {
+        echo "<script>alert('out of Stock');</script>";
     }
-    //header('location:category.php');
-} 
- $query2 = "SELECT Cat_Name from catogory order by Cat_Name asc";
- $result2 = $conn->query($query2);
- while ($row1 = mysqli_fetch_assoc($result2)) {
- $row2 = $row1['Cat_Name'];
- */
+}
+
+//=======================Add to wishlist=============
+if (isset($_GET['moveid'])) {
+    $id = $_GET['moveid'];
+
+    $wishquery = "INSERT INTO wishlist values ('$id','$loginame');";
+    $conn->query($wishquery);
+    echo "<script>alert('Added Successfully!')</script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +36,8 @@ if (isset($_GET['id'])) {
     <meta http-equiv="X-UA-Compatible " content="IE=edge">
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../CSS/External.css">
 
     <style>
@@ -49,12 +54,16 @@ if (isset($_GET['id'])) {
 </head>
 
 <body background="../../Images/bg_prod.jpg">
-    
+
     <div class="container mt-5">
-    <form id="frmSrch" role="search">
-        <input type="search" id="srch" name="srch" placeholder="Search hear.." aria-label="Search through site content">
-        <button>Search</button>
-    </form><br><br>
+        <div class="row">
+            <div class="row">
+                <form id="frmSrch">
+                    <input type="text" id="srch" name="srch" placeholder="type to search"
+                        onkeyup="search()"><button>Search</button>
+                </form>
+            </div><br><br>
+        </div>
         <div class="row">
             <?php
             $query = "SELECT * FROM product";
@@ -77,7 +86,7 @@ if (isset($_GET['id'])) {
                             <!-- //class="card-img"
     //echo '<img src="data:image;base64,'.base64_encode($image).'" style=""height:100px">';
 -->
-                            <center><img src="../../../../templates/uploads/<?php echo $rows['file_name']; ?>" width="280"
+                            <center><img src="../../../../templates/uploads/<?php echo $rows['file_name']; ?>" height="200"
                                     style="margin-top:20px;"></center>
                             <br>
                             <div class="card-body">
@@ -94,15 +103,19 @@ if (isset($_GET['id'])) {
                                     <?php echo $price; ?>
                                 </h4>
                                 <h6 class="card-title"><b>Description</b> :
-                                    Click here...
+                                    <a href="view.php?name=<?php echo $name ?>&id=<?php echo $proid ?>&cat=<?php echo $cat ?>"
+                                        target="_blank">Click here...</a>
                                 </h6>
-                                <!--<div class="buy d-flex justify-content-between align-items-center">
-                <a href="index.php?id=<?php /*echo $row['id']; */?>" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
-            </div>-->
-
                                 <form method="POST" action="#">
                                     <div style="margin-left:30%;">
-                                        <?php echo "<button type='submit' style='background-color:Red;border-radius:8px;color:white;border: 2px solid white;cursor: pointer;' formaction='Prod.php?id=$proid&qty=$qty'>Add to cart</button>"; ?>
+                                        <?php if ($qty > 0) { ?>
+                                            <?php echo "<button type='submit' style='background-color:Red;border-radius:8px;color:white;border: 2px solid white;cursor: pointer;' formaction='Prod.php?id=$proid&qty=$qty'>Add to cart</button>"; ?>
+                                            <?php
+                                        } else { ?>
+                                            <?php echo "<button type='submit' style='background-color:yellow;border-radius:8px;color:black;border: 2px solid white;cursor: pointer;' formaction='Prod.php?moveid=$proid'>Add to wishlist</button>"; ?>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </form>
                             </div>
@@ -113,7 +126,29 @@ if (isset($_GET['id'])) {
             } ?>
         </div>
 
+    </div>
+    <script>
+        function search() {
+            const searchbox = document.getElementById("srch").value.toUpperCase();
+            console.log(searchbox);
+            const vname = document.getElementsByTagName("h5");
 
+
+            for (let i = 0; i < vname.length; i++) {
+                let match = vname[i];
+                if (match) {
+                    let textvalue = match.textContent || match.innerHTML;
+                    let textvalue: String
+                    if (textvalue.toUpperCase().indexOf("searchbox") > -1) {
+                    console.log(vname[i]) ;
+                    }
+                    else {
+                        console.log("no") ;
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

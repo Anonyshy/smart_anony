@@ -4,25 +4,32 @@ include_once("../../../connection.php");
 session_start();
 $loginame = $_SESSION['Username'];
 
-
-if (isset($_GET['proidnew'])) {
-	$idnew = $_GET['proidnew'];
-	$query3 = "DELETE FROM product_temp_online WHERE prod_id='$idnew' AND Cus_Name='$loginame';";
-	$conn->query($query3);
-	header("location:cart.php");
-	//echo "success";
+//==================================delete from wishlist================================================
+if (isset($_GET['proid'])) {
+	$id = "wish.php?idd=" . $_GET['proid'];
+	//echo "<script> confirm('$id');</script>";
+	echo "<script>let res = confirm('Are you sure you want to delete this?');if(res){window.location.href = '$id';console.log('ok');}else{window.location.href = 'wish.php';console.log('no');}</script>";
 }
+if (isset($_GET['idd'])) {
+	//echo "OKK";
+	$idd = $_GET['idd'];
+	//echo $idd;
+	$delquery = "DELETE FROM wishlist where id='$idd' And Username='$loginame';";
+	$conn->query($delquery);
+}
+
+//======================================delete from wishlist and add to cart=========================
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];
 	$loginame = $_SESSION['Username'];
 	//$quanty = $_POST['quant'];
 	$query = "INSERT INTO product_temp values ('$id','$loginame');";
-		$conn->query($query);
-		$query2 = "DELETE FROM wishlist WHERE id='$id' AND Username='$loginame';";
-		$conn->query($query2);	
-		echo "<script>alert('Added Successfully!')</script>";
-	  
-	}
+	$conn->query($query);
+	$query2 = "DELETE FROM wishlist WHERE id='$id' AND Username='$loginame';";
+	$conn->query($query2);
+	echo "<script>alert('Added Successfully!')</script>";
+
+}
 
 
 
@@ -48,8 +55,6 @@ if (isset($_GET['id'])) {
 			font-family: Arial;
 			text-decoration: none;
 		}
-
-		
 	</style>
 
 </head>
@@ -59,7 +64,8 @@ if (isset($_GET['id'])) {
 
 	<br><br>
 	<div class="container mt-5">
-		<a href="cart.php" class="btn btn-warning"><span class="glyphicon glyphicon-heart "></span>&nbsp;Cart</a><br><br><br>
+		<a href="cart.php" class="btn btn-warning"><span
+				class="glyphicon glyphicon-heart "></span>&nbsp;Cart</a><br><br><br>
 		<div class="row">
 			<?php
 
@@ -69,7 +75,7 @@ if (isset($_GET['id'])) {
 			if ($wishresult->num_rows > 0) {
 				$total = 0; ?>
 				<table width="100%" border="1px" align="center" style=" text-align: center;color:white;">
-					
+
 					<?php
 					while ($rowstemp = $wishresult->fetch_assoc()) {
 						$proid = $rowstemp['id'];
@@ -94,7 +100,7 @@ if (isset($_GET['id'])) {
 
 
 										<td width="10px">
-											<?php echo "<a href='cart.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a> <a href='wish.php?id=$proid'   class='btn btn-success mt-3'>Add to Cart</a>"; ?>
+											<?php echo "<a href='wish.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a> <a href='wish.php?id=$proid'   class='btn btn-success mt-3'>Add to Cart</a>"; ?>
 										</td>
 									</tr>
 
@@ -113,7 +119,7 @@ if (isset($_GET['id'])) {
 
 
 										<td width="10px">
-											<?php echo "<a href='cart.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a>"; ?>
+											<?php echo "<a href='wish.php?proid=$proid'   class='btn btn-danger mt-3'>Delete</a>"; ?>
 										</td>
 									</tr>
 
@@ -129,7 +135,7 @@ if (isset($_GET['id'])) {
 					?>
 				</table>
 			</div>
-		
+
 
 
 

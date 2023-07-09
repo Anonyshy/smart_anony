@@ -5,7 +5,7 @@
       <th>Product Category</th>
       <th>Cost</th>
       <th>Qty</th>
-      <th>Discription</th>
+      <!-- <th>Discription</th>-->
       <!--<th>Status</th>-->
       <th>Action</th>
     </tr>
@@ -30,7 +30,7 @@
       $row2 = $row1['Pro_name'];
       $row3 = $row1['Cat_ID'];
       $row4 = $row1['Cost'];
-      //$row5 = $row1['Status'];
+      $row5 = $row1['url'];
       $row6 = $row1['Qty_available'];
       $row7 = $row1['Description'];
       $querycat = "SELECT Cat_Name from category Where Cat_ID='$row3';";
@@ -55,11 +55,11 @@
           <?php
           echo $row6; ?>
         </td>
-        <td>
+        <!--<td>
           <?php
-          echo $row7; ?>
-        </td>
-       <!-- <td>
+          //echo $row7; ?>
+        </td>-->
+        <!-- <td>
           <?php
           //echo $row5; ?>
         </td>
@@ -67,7 +67,7 @@
         <td>
           <?php echo "
             <a href='product.php?id=$row2'  class='del_cat'>Delete</a> 
-            <a href='Product/edit_prod.php?name=$row2&cat=$row9&cost=$row4&qty=$row6&description=$row7' class='edit_cat' >Edit</a>";
+            <a href='Product/edit_prod.php?name=$row2&cat=$row9&cost=$row4&url=$row5&qty=$row6&description=$row7' class='edit_cat' >Edit</a>";
           ?>
         </td>
       </tr>

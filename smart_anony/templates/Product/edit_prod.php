@@ -7,7 +7,7 @@ if (isset($_GET['name'])) {
   $id2 = $_GET['name'];
   $id3 = $_GET['cat'];
   $id4 = $_GET['cost'];
-  //$id5 = $_GET['status'];
+  $id5 = $_GET['url'];
   $id6 = $_GET['qty'];
   $id7 = $_GET['description'];
 
@@ -20,8 +20,9 @@ if (isset($_POST['prod_name'])) {
   $lstprice = $_POST['status'];
   $qty = $_POST['qty'];
   $dsc = $_POST['discription'];
+  $url = $_POST['url'];
 
-  $query4 = "UPDATE product SET Pro_name='$name', Description='$dsc',Cost='$stdcost',Cat_ID='$cat',Qty_available='$qty'  WHERE Pro_name='$id2' ";
+  $query4 = "UPDATE product SET Pro_name='$name', Description='$dsc',Cost='$stdcost',Cat_ID='$cat',Qty_available='$qty',url='$url'  WHERE Pro_name='$id2' ";
   $conn->query($query4);
 
   echo '<script>alert("Edit Succesfully..!")</script>';
@@ -72,17 +73,18 @@ if (isset($_POST['prod_name'])) {
             <input type="text" class="form-control" name="std_cost" id="category_name" value="<?php echo $id4; ?>"
               required><br>
 
-            <!--<label>Status</label>
-            <input type="text" class="form-control" name="status" id="category_name" value="<?php ///echo $id5; ?>"
-              required><br>-->
+            <label>URL</label>
+            <input type="text" class="form-control" name="url" id="category_name" value="<?php echo $id5; ?>"
+              required><br>
 
             <label>Quantity</label>
-            <input type="text" class="form-control" name="qty" id="qty_old" value="<?php echo $id6; ?>"
-              style="margin-left:17.5%;width:7%;text-align: center;" readonly>&nbsp;Add
+            <input type="number" class="form-control" name="qty" id="qty_old" value="<?php echo $id6; ?>"
+              style="margin-left:17.5%;width:7%;text-align: center;" >
+              <!--&nbsp;Add
               
-                <input type="text" class="form-control" value="0"  id="qty_add" style="margin-left:0%;width:7%;text-align: center;">
+                <input type="number" class="form-control" value="0"  id="qty_add" style="margin-left:0%;width:7%;text-align: center;">
                 <a href="#" onclick="add()" class="add" style="background-color: Orange;text-decoration:none;padding: 8px;border-radius: 5px;color: white;font-family: Verdana, Geneva, Tahoma, sans-serif;">+</a><br>
-
+            --><br>
             <label>Description</label>
             <textarea cols="2" rows="2" class="form-control" wrap="soft" name="discription" id="category_name"
               style="height:20%;margin-left:14.5%;"><?php echo $id7; ?></textarea><br>
@@ -94,12 +96,12 @@ if (isset($_POST['prod_name'])) {
     </div>
   </div>
 </div>
-<script>
+<script>/*
 function add(){
  var currentNum=parseInt(document.getElementById('qty_old').value);
  var newNum=parseInt(document.getElementById('qty_add').value);
  var sum=currentNum+newNum;
  document.getElementById('qty_old').value=sum;
-};
+}*/
 
   </script>
