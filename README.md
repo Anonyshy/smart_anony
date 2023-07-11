@@ -2,9 +2,12 @@
 Video Rentout website
 <p align="center">
 <img src="./Android/database/K.Prabhasha.gif" alt="Loading..." width="320"/>
-## [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Rockstar-ExtraBold&color=F33A6A&lines=Welcome+To+Smart╺+Anony+-+Project.;Follow+instructions+Please;ℂ𝕣𝕖𝕒𝕥𝕖𝕕+𝕓𝕪:+Suresh+Shyaman;)](https://git.io/typing-svg)
+</p>
 
+## [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Rockstar-ExtraBold&color=F33A6A&lines=Welcome+To+Smart+Anony+Project;Follow+instructions+Please...;ℂ𝕣𝕖𝕒𝕥𝕖𝕕+𝕓𝕪:+Suresh+Shyaman;)](https://git.io/typing-svg)
+<p>
 =======================================================================================================================
+   </p>
 1. Download this project as a zip file
 2. Extract and copy "smart_anony" folder to the your xamp or wamp location and run that
    <p> eg:- C:/wamp64/www/smart_anony</p>
