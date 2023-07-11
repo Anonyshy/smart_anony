@@ -8,13 +8,13 @@ Video Rentout website
 <p>
 =======================================================================================================================
    </p>
-1. Download this project as a zip file
-2. Extract and copy "smart_anony" folder to the your xamp or wamp location and run that
-   <p> eg:- C:/wamp64/www/smart_anony</p>
-3. Create database as "smart_anony"
-4. import "smart_anony.sql" file
-5. Move "Smart Anony Video Rental.url" to Desktop and open it
-6. Now you can access smart_anony video rentout application
+1. Download this project as a zip file<br>
+2. Extract and copy "<b>smart_anony</b>" folder to the your xamp or wamp location and run that<br>
+ &nbsp;&nbsp;&nbsp;eg:- <b>C:/wamp64/www/smart_anony</b>b><br><br>
+3. Create database as "<b>smart_anony</b>"<br>
+4. import "<b>smart_anony.sql</b>" file<br>
+5. Move "<b>Smart Anony Video Rental.url</b>" to Desktop and open it<br>
+6. Now you can access<b> smart_anony video rentout</b> application<br>
 
 =======================================================================================================================
 <pre>  Login as Admin
