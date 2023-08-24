@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 09, 2023 at 02:30 AM
+-- Generation Time: Aug 24, 2023 at 11:09 AM
 -- Server version: 8.0.27
 -- PHP Version: 7.4.26
 
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `Cat_ID` int NOT NULL AUTO_INCREMENT,
-  `Cat_Name` varchar(15) NOT NULL,
+  `Cat_Name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`Cat_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `category`
@@ -50,7 +50,7 @@ INSERT INTO `category` (`Cat_ID`, `Cat_Name`) VALUES
 (9, 'Musical'),
 (10, 'Romance'),
 (11, 'Science fiction'),
-(12, 'Western');
+(47, 'Western');
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `Pwd` varchar(50) NOT NULL,
   `Position` varchar(8) NOT NULL,
   PRIMARY KEY (`Cus_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `customer`
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 
 INSERT INTO `customer` (`Cus_ID`, `Username`, `Email`, `PN`, `Address`, `Pwd`, `Position`) VALUES
 (1, 'Admin', 'shyamansuresh@gmail.com', '+94719242999', 'Tissamaharama', '202cb962ac59075b964b07152d234b70', 'Admin'),
-(6, 'Shyaman', 'fishingwithsuresh@gmail.com', '0719242999', '1150/1a', '202cb962ac59075b964b07152d234b70', 'User');
+(2, 'Shyaman', 'fishingwithsuresh@gmail.com', '0719242999', '1150/1a', '202cb962ac59075b964b07152d234b70', 'User');
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,16 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `Amount` varchar(15) NOT NULL,
   PRIMARY KEY (`Inv_ID`),
   KEY `Order_ID` (`Order_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`Inv_ID`, `Order_ID`, `Date`, `Amount`) VALUES
+(10000, 50003, '2023-07-14', '550'),
+(10001, 50004, '2023-07-14', '250'),
+(10002, 50005, '2023-08-24', '300');
 
 -- --------------------------------------------------------
 
@@ -106,10 +115,20 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `Pro_ID` int NOT NULL,
   `Unit_price` varchar(15) NOT NULL,
   `Due_Date` date NOT NULL,
-  `Status` varchar(10) NOT NULL,
+  `Status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`Order_ID`,`Pro_ID`),
   KEY `Pro_ID` (`Pro_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`Order_ID`, `Pro_ID`, `Unit_price`, `Due_Date`, `Status`) VALUES
+(50003, 4, '300', '2023-07-17', 'NotRecieved'),
+(50003, 6, '250', '2023-07-17', 'NotRecieved'),
+(50004, 6, '250', '2023-07-17', 'ToDeliver'),
+(50005, 10, '300', '2023-08-27', 'Ordered');
 
 -- --------------------------------------------------------
 
@@ -123,8 +142,17 @@ CREATE TABLE IF NOT EXISTS `order_tbl` (
   `Cus_ID` int NOT NULL,
   `Date_Created` date NOT NULL,
   PRIMARY KEY (`Order_ID`),
-  UNIQUE KEY `Cus_ID` (`Cus_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `Cus_ID` (`Cus_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=50006 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `order_tbl`
+--
+
+INSERT INTO `order_tbl` (`Order_ID`, `Cus_ID`, `Date_Created`) VALUES
+(50003, 2, '2023-07-14'),
+(50004, 2, '2023-07-14'),
+(50005, 2, '2023-08-24');
 
 -- --------------------------------------------------------
 
@@ -151,15 +179,15 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`Pro_ID`, `Pro_name`, `Qty_available`, `Cat_ID`, `Cost`, `Description`, `url`, `file_name`) VALUES
-(4, 'Tenet (2020)', 10, 5, '300', 'Armed with only one word, Tenet, and fighting for the survival of the entire world, a Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.<br><br>Director: Christopher Nolan | Stars: John David Washington, Robert Pattin', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742400.jpg'),
-(6, ' Uncut Gems (2019)', 3, 1, '250', 'With his debts mounting and angry collectors closing in, a fast-talking New York City jeweler risks everything in hope of staying afloat and alive.<br><br>Directors: Benny Safdie, Josh Safdie | Stars: Adam Sandler, Julia Fox, Idina Menzel, Mesfin Lamengo', 'https://www.youtube.com/embed/vTfJp2Ts9X8', 'img_649027cdb93c14.99742401.jpg'),
-(7, 'The Trial of the Chicago 7 (2020)', 8, 4, '300', 'The story of 7 people on trial stemming from various charges surrounding the uprising at the 1968 Democratic National Convention in Chicago, Illinois.\n\nDirector: Aaron Sorkin | Stars: Eddie Redmayne, Alex Sharp, Sacha Baron Cohen, Jeremy Strong', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742402.jpg'),
-(8, 'Rewind (III) (2019)', 7, 4, '250', 'Digging through the vast collection of his father\'s home videos, a young man reconstructs the unthinkable story of his boyhood and exposes vile abuse passed through generations.\n\nDirector: Sasha Joseph Neulinger | Stars: Sasha Joseph Neulinger, Henry Nevison, Howard Nevison', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742459.jpg'),
-(9, 'Soul (2020)', 0, 4, '300', 'After landing the gig of a lifetime, a New York jazz pianist suddenly finds himself trapped in a strange land between Earth and the afterlife.\n\nDirectors: Pete Docter, Kemp Powers | Stars: Jamie Foxx, Tina Fey, Graham Norton, Rachel House', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742403.jpg'),
+(4, 'Tenet (2020)', 9, 5, '300', 'Armed with only one word, Tenet, and fighting for the survival of the entire world, a Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.<br><br>Director: Christopher Nolan | Stars: John David Washington, Robert Pattin', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742400.jpg'),
+(6, ' Uncut Gems (2019)', 2, 1, '250', 'With his debts mounting and angry collectors closing in, a fast-talking New York City jeweler risks everything in hope of staying afloat and alive.<br><br>Directors: Benny Safdie, Josh Safdie | Stars: Adam Sandler, Julia Fox, Idina Menzel, Mesfin Lamengo', 'https://www.youtube.com/embed/vTfJp2Ts9X8', 'img_649027cdb93c14.99742401.jpg'),
+(7, 'The Trial of the Chicago 7 (2020)', 8, 1, '300', 'The story of 7 people on trial stemming from various charges surrounding the uprising at the 1968 Democratic National Convention in Chicago, Illinois.\n\nDirector: Aaron Sorkin | Stars: Eddie Redmayne, Alex Sharp, Sacha Baron Cohen, Jeremy Strong', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742402.jpg'),
+(8, 'Rewind (III) (2019)', 5, 2, '250', 'Digging through the vast collection of his father', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742459.jpg'),
+(9, 'Soul (2020)', 0, 1, '300', 'After landing the gig of a lifetime, a New York jazz pianist suddenly finds himself trapped in a strange land between Earth and the afterlife.\n\nDirectors: Pete Docter, Kemp Powers | Stars: Jamie Foxx, Tina Fey, Graham Norton, Rachel House', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742403.jpg'),
 (10, 'Beastie Boys Story (2020)', 0, 4, '300', 'Here', 'https://www.youtube.com/embed/ZCyqR2RXoQU', 'img_649027cdb93c14.99742404.jpg'),
-(11, 'The Outpost (2019)', 0, 4, '250', 'A small team of U.S. soldiers battles against hundreds of Taliban fighters in Afghanistan.\n\nDirector: Rod Lurie | Stars: Scott Eastwood, Caleb Landry Jones, Orlando Bloom, Jack Kesy', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742405.jpg'),
+(11, 'The Outpost (2019)', 0, 2, '250', 'A small team of U.S. soldiers battles against hundreds of Taliban fighters in Afghanistan.\n\nDirector: Rod Lurie | Stars: Scott Eastwood, Caleb Landry Jones, Orlando Bloom, Jack Kesy', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742405.jpg'),
 (12, 'Wolfwalkers (2020)', 3, 4, '300', 'A young apprentice hunter and her father journey to Ireland to help wipe out the last wolf pack. But everything changes when she befriends a free-spirited girl from a mysterious tribe rumored to transform into wolves by night.\n\nDirectors: Tomm Moore, Ross Stewart | Stars: Honor Kneafsey, Eva Whittak', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742406.jpg'),
-(13, 'Richard Jewell (2019)', 2, 4, '250', 'Security guard Richard Jewell is an instant hero after foiling a bomb attack at the 1996 Atlanta Olympics, but his life becomes a nightmare when the FBI leaks to the media that he is a suspect in the case.\n\nDirector: Clint Eastwood | Stars: Paul Walter Hauser, Sam Rockwell, Brandon Stanley, Ryan Boz', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742407.jpg'),
+(13, 'Richard Jewell (2019)', 2, 3, '250', 'Security guard Richard Jewell is an instant hero after foiling a bomb attack at the 1996 Atlanta Olympics, but his life becomes a nightmare when the FBI leaks to the media that he is a suspect in the case.\n\nDirector: Clint Eastwood | Stars: Paul Walter Hauser, Sam Rockwell, Brandon Stanley, Ryan Boz', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742407.jpg'),
 (14, 'The Gentlemen (2019)', 0, 4, '200', 'An American expat tries to sell off his highly profitable marijuana empire in London, triggering plots, schemes, bribery and blackmail in an attempt to steal his domain out from under him.\n\nDirector: Guy Ritchie | Stars: Matthew McConaughey, Charlie Hunnam, Michelle Dockery, Jeremy Strong', 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0', 'img_649027cdb93c14.99742408.jpg');
 
 -- --------------------------------------------------------
@@ -174,13 +202,6 @@ CREATE TABLE IF NOT EXISTS `product_temp` (
   `Username` varchar(50) NOT NULL,
   PRIMARY KEY (`id`,`Username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `product_temp`
---
-
-INSERT INTO `product_temp` (`id`, `Username`) VALUES
-(13, 'shyaman');
 
 -- --------------------------------------------------------
 
@@ -209,13 +230,6 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   `Username` varchar(50) NOT NULL,
   PRIMARY KEY (`id`,`Username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`id`, `Username`) VALUES
-(14, 'shyaman');
 
 --
 -- Constraints for dumped tables
