@@ -1,0 +1,66 @@
+th{
+    background-color: rgb(28, 28, 39);
+    color: antiquewhite;
+
+}
+tr{
+    height: 35px;
+}
+td{
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    background-color: rgb(231, 231, 222);
+}
+input{
+    height: 30px;
+}
+.add-cat form{
+    margin-top: 50px;
+}
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+label{
+    color: rgb(172, 0, 0);
+    font-weight: bold;
+}
+.box{
+    padding: 20px;
+    background-color: rgb(189, 194, 194);
+    border-radius: 10px;
+    border-style: double;
+}
+.cusname, .date{
+    margin-left: 200px;
+}
+.submit{
+    padding: 5px;
+    background-color: rgb(114, 27, 15);
+    color: bisque;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.add{
+    padding: 12px;
+    background-color: rgb(0, 145, 31);
+    color: bisque;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight:600;
+}
+.add:hover{
+    background-color:rgb(219, 29, 4) ;
+}
+.delete{
+    padding: 5px;
+    background-color: rgb(2, 80, 19);
+    color: bisque;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.delete:hover{
+    background-color: brown;
+}
+.submit:hover{
+    background-color: brown;
+}
