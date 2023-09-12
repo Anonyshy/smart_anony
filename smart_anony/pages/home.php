@@ -260,8 +260,8 @@ if (isset($_SESSION['Username'])) {
                                                    */ function productpage() { document.getElementById('window').innerHTML = '<object type="text/html" data="../templates/product.php" ></object>'; }
             /* function Supplierpage() { document.getElementById('window').innerHTML = '<object type="text/html" data="register_supplier.php" ></object>'; }*/
             function ordermng() { document.getElementById('window').innerHTML = '<object type="text/html" data="../templates/order.php?click=ok" ></object>'; }
-              /*  function report() { document.getElementById('window').innerHTML = '<object type="text/html" data="../templates/report.php" ></object>'; }
-              */</script>
+               function report() { document.getElementById('window').innerHTML = '<object type="text/html" data="../templates/report.php" ></object>'; }
+              </script>
 
         </html>
         <?php

@@ -1,7 +1,12 @@
 <?php
 include_once("../pages/connection.php");
+
+$date = date("Y-m-d");
+//echo $date;
+//<!-- ====================auto click once "All" button====================== -->
 if (isset($_GET['click'])) {
   ?>
+
   <a href="order.php?all=ok&check=1" id="myButton">
   </a>
   <?php
@@ -10,7 +15,17 @@ if (isset($_GET['click'])) {
     window.location.href = \"order.php\";
     window.document.getElementById(\"myButton\").click();
   </script>";
-
+  //=============================================================================
+}
+if (isset($_GET['FineProID'])) {
+  $pid = $_GET['FineProID'];
+  $oid = $_GET['FineOID'];
+  if ($_GET['select'] == "ok") {
+    $fineUpdate = "UPDATE fines SET State='Recieved' WHERE Order_ID=$oid AND Pro_ID=$pid";
+  } else {
+    $fineUpdate = "UPDATE fines SET State='NotRecieved' WHERE Order_ID=$oid AND Pro_ID=$pid";
+  }
+  $conn->query($fineUpdate);
 }
 ?>
 
@@ -80,6 +95,36 @@ if (isset($_GET['click'])) {
             $resultst = $conn->query($queryst);
             $row8 = mysqli_fetch_assoc($resultst);
             $state = $row8['Status'];
+            $DueDate = $row8['Due_Date'];
+            //=========================calculate fine and update to fines table===================================
+            if ($state == "NotRecieved") {
+              if ($DueDate < $date) {
+                $date1 = new DateTime($DueDate);
+                $date2 = new DateTime($date);
+                $diffr = $date1->diff($date2);
+
+                $latedates = $diffr->format('%a'); //format get absolute number
+                $fines = 30 * $latedates;
+
+                $DueDate1 = new DateTime($DueDate);
+
+                // Add one day
+                $DueDate1->add(new DateInterval('P1D'));
+                $fineCreated = $DueDate1->format('Y-m-d');
+                //$fineCreatedDate = date($fineCreated);
+                //echo $fineCreated;
+                $qProducts = "SELECT Pro_ID FROM order_details WHERE Order_ID=$row2 ";
+                $rProducts = $conn->query($qProducts);
+                while ($rowpro = mysqli_fetch_assoc($rProducts)) {
+                  $proid = $rowpro['Pro_ID'];
+                  $qFines = "INSERT INTO fines VALUES ($row2,$row3,$proid,'$fineCreated',$fines,'NotRecieved')";
+                  $conn->query($qFines);
+                }
+              } else {
+                //echo "no";
+              }
+            }
+
             if ($state == "Ordered") {
               $color = "green";
             } elseif ($state == "ToDeliver") {
@@ -166,7 +211,35 @@ if (isset($_GET['click'])) {
             $result1 = $conn->query($query1);
             while ($rows = mysqli_fetch_assoc($result1)) {
               $state = $rows['Status'];
+              $DueDate = $rows['Due_Date'];
+              //=========================calculate fine and update to fines table===================================
+              if ($condition == "NotRecieved") {
+                if ($DueDate < $date) {
+                  $date1 = new DateTime($DueDate);
+                  $date2 = new DateTime($date);
+                  $diffr = $date1->diff($date2);
 
+                  $latedates = $diffr->format('%a'); //format get absolute number
+                  $fines = 30 * $latedates;
+
+                  $DueDate1 = new DateTime($DueDate);
+
+                  // Add one day
+                  $DueDate1->add(new DateInterval('P1D'));
+                  $fineCreated = $DueDate1->format('Y-m-d');
+                  //$fineCreatedDate = date($fineCreated);
+                  //echo $fineCreated;
+                  $qProducts = "SELECT Pro_ID FROM order_details WHERE Order_ID=$row2 ";
+                  $rProducts = $conn->query($qProducts);
+                  while ($rowpro = mysqli_fetch_assoc($rProducts)) {
+                    $proid = $rowpro['Pro_ID'];
+                    $qFines = "INSERT INTO fines VALUES ($row2,$row3,$proid,'$fineCreated',$fines,'NotRecieved')";
+                    $conn->query($qFines);
+                  }
+                } else {
+                  //echo "no";
+                }
+              }
               ?>
               <tr height="50px">
                 <td>

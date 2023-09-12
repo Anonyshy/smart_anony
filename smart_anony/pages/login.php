@@ -31,7 +31,7 @@ if (isset($_POST['username'])) {
         } else {
             
             $_SESSION['Username']=$uname;
-            header("Location: user/");
+            header("Location: user/Index.php");
             exit();
         }
     } 
